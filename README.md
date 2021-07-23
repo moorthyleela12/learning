@@ -1,4 +1,4 @@
-# learning notes
+# learning aws
 
 # to log into pcluster 
 
