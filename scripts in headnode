@@ -1,0 +1,23 @@
+#login to headnode
+#complete directions for 1.phase.sh:
+  ##Convert vcf files to .gz files and phase files using shapeit4
+for i in `ls *.vcf`
+do
+  bgzip -c ${i} > ${i}.gz
+  tabix -p vcf ${i}.gz
+  file=`echo $i|cut -d"." -f1`
+
+  shapeit4 --input $i.gz --map chr1.b37.gmap.gz --region 1 --output ${file}_phased.vcf.gz --thread 5
+done
+
+#install tabix 
+sudo apt install tabix
+bgzip -c ${i} > ${i}.gz
+file=`echo $i|cut -d"." -f1`
+
+#install miniconda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+# install shapeit4
+conda install -c bioconda shapeit4
+
+#install tabix 
