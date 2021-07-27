@@ -1,0 +1,25 @@
+#attach volume 
+#verify if attached 
+lsblk
+#go to ROOT
+sudo su
+sudo mkfs -t ext4 /dev/xvdf
+sudo mkdir LeelaDir
+sudo mount /dev/xvdf LeelaDir
+
+#COPY s3
+
+sudo chown -R /home/ubuntu/LeelaDir ubuntu
+aws s3 cp s3://parallelcluster-lmoorthy/parallelcluster-cluster-leela10-3vx8ct5p0oetyx63/ /home/ubuntu/LeelaDir --recursive
+
+
+#COPY VCF FILES SEPARATELY
+
+aws s3 cp s3://parallelcluster-lmoorthy/parallelcluster-cluster-leela10-3vx8ct5p0oetyx63/samples_rm8_chr1.vcf /home/ubuntu/LeelaDir
+
+#see VCF file
+cd LeelaDir
+cd Calls
+cd test1
+cd ref
+
