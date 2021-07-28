@@ -1,0 +1,40 @@
+1.phase.sh
+
+#Working commands 
+
+bgzip -c samples_rm8_chr1.vcf > samples_rm8_chr1.vcf.gz
+tabix -p vcf samples_rm8_chr1.vcf.gz
+file=`reference_chr1.vcf|cut -d"." -f1`
+echo $i
+ls reference_chr1.vcf samples_rm8_chr1.vcf
+
+#not working commands
+
+shapeit4 --input $i.gz --map chr1.b37.gmap.gz --region 1 --output ${file}_phased.vcf.gz --thread 5
+#output:
+shapeit4: command not found
+
+
+2.input.sh
+
+#whatshouldItest
+
+
+3.association.sh
+
+
+#not working commands
+
+bcftools query -f "%ID\t%REF\t%ALT[\t%DS]\n" samples_rm8_chr1_imputed.vcf.gz >samples_rm8_chr1_imputed.dosage_nohead.dat
+#output
+Failed to open samples_rm8_chr1_imputed.vcf.gz: No such file or directory
+
+gunzip -c samples_rm8_chr1_imputed.vcf.gz | head -50 | grep "#CHROM" | cut -f3-5,10-2009> samples_rm8_chr1_imputed.vcf.gz.head
+#output
+gzip: samples_rm8_chr1_imputed.vcf.gz: No such file or directory
+
+#working commands 
+
+cat samples_rm8_chr1_imputed.vcf.gz.head samples_rm8_chr1_imputed.dosage_nohead.dat> samples_rm8_chr1_imputed.dosage.temp
+sed 's/ID/SNP/g; s/REF/A1/g; s/ALT/A2/g; s/_/ /g' samples_rm8_chr1_imputed.dosage.temp > samples_rm8_chr1_imputed.dosage_head.dat
+
