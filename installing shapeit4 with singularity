@@ -1,0 +1,14 @@
+
+# install singularity with neurodebian
+
+sudo apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9
+sudo apt-get update
+sudo apt-get install -y singularity-container
+
+# build singularity image 
+singularity build shapeit4.sif docker://taniguti/shapeit4 && \
+>     mv shapeit4.sif /usr/local/bin
+
+# run shapeit4 command 
+
+singularity exec --bind `pwd`:/tmp shapeit4.sif shapeit4 --input /tmp/samples_rm8_chr1.vcf.gz --map /tmp/chr1.b37.gmap.gz --region 1 --output /tmp/soemthing_phased.vcf.gz --thread 5
